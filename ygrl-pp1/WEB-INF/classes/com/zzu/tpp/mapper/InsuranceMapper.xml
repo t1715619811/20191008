@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzu.tpp.dao.InsuranceDao">
+    <!-- Insurance的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_Insurance_Map" type="com.zzu.tpp.entity.Insurance">
+        <id column="id" property="id" />
+        <result column="deadline" property="deadline" />
+        <result column="money" property="money" />
+        <result column="photo_invoice" property="photoInvoice" />
+        <result column="photo_cardface" property="photoCardface" />
+        <result column="userId" property="userid" />
+        <result column="phtoto_cardback" property="phtotoCardback" />
+        <result column="phtoto_farm" property="phtotoFarm" />
+        <result column="phtoto_certificate" property="phtotoCertificate" />
+        <result column="phtoto_purchase" property="phtotoPurchase" />
+        <result column="kehuphone" property="kehuphone" />
+        <result column="kehudate" property="kehudate" />
+    </resultMap>
+
+    <!-- 数据库中表名为:insurance的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="insurance_Column">
+        insurance.id as id
+        ,insurance.deadline as deadline
+        ,insurance.money as money
+        ,insurance.photo_invoice as photo_invoice
+        ,insurance.photo_cardface as photo_cardface
+        ,insurance.userId as userId
+        ,insurance.phtoto_cardback as phtoto_cardback
+        ,insurance.phtoto_farm as phtoto_farm
+        ,insurance.phtoto_certificate as phtoto_certificate
+        ,insurance.phtoto_purchase as phtoto_purchase
+        ,insurance.kehuphone as kehuphone
+        ,insurance.kehudate as kehudate
+    </sql>
+
+    <!--获得类名为:Insurance对应的数据库表的数据总行数 -->
+    <select id="getInsuranceRowCount" resultType="java.lang.Long">
+        select count(id) from insurance
+    </select>
+    <!-- 获得类名为:Insurance对应数据库中表的数据集合 -->
+    <select id="selectInsurance" resultMap="result_Insurance_Map" parameterType="com.baizhi.query.PersonQuery1">
+        select 
+        <include refid="insurance_Column" /> 
+  
+        from insurance
+        
+        
+        		<if test="startDate != null and endDate != null ">
+			
+			where kehudate &lt;= #{endDate} and kehudate &gt;= #{startDate}
+			
+		</if>
+        
+        limit #{start}, #{end}
+        
+        
+        
+        
+    </select> 
+
+    <!-- 获得一个Insurance对象,以参数Insurance对象中不为空的属性作为条件进行查询-->
+    <select id="selectInsuranceByObj" parameterType="com.zzu.tpp.entity.Insurance" resultMap="result_Insurance_Map">
+        select 
+            <include refid="insurance_Column" /> 
+        from insurance
+        <where>
+            <if test="kehudate != null "> and insurance.kehudate = #{kehudate}</if>
+            <if test="kehuphone != null "> and insurance.kehuphone = #{kehuphone}</if>
+            <if test="phtotoPurchase != null "> and insurance.phtoto_purchase = #{phtotoPurchase}</if>
+            <if test="phtotoCertificate != null "> and insurance.phtoto_certificate = #{phtotoCertificate}</if>
+            <if test="phtotoFarm != null "> and insurance.phtoto_farm = #{phtotoFarm}</if>
+            <if test="phtotoCardback != null "> and insurance.phtoto_cardback = #{phtotoCardback}</if>
+            <if test="userid != null "> and insurance.userId = #{userid}</if>
+            <if test="photoCardface != null "> and insurance.photo_cardface = #{photoCardface}</if>
+            <if test="photoInvoice != null "> and insurance.photo_invoice = #{photoInvoice}</if>
+            <if test="money != null "> and insurance.money = #{money}</if>
+            <if test="deadline != null "> and insurance.deadline = #{deadline}</if>
+            <if test="id != null "> and insurance.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过Insurance的id获得对应数据库中表的数据对象-->
+    <select id="selectInsuranceById" parameterType="java.lang.Integer" resultMap="result_Insurance_Map">
+        select 
+            <include refid="insurance_Column" /> 
+        from insurance
+        where insurance.id = #{id}
+    </select> 
+
+    <!-- 将Insurance插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertInsurance" parameterType="com.zzu.tpp.entity.Insurance">
+        insert into insurance(id,deadline,money,photo_invoice,photo_cardface,userId,phtoto_cardback,phtoto_farm,phtoto_certificate,phtoto_purchase,kehuphone,kehudate) 
+        values(0,#{deadline},#{money},#{photoInvoice},#{photoCardface},#{userid},#{phtotoCardback},#{phtotoFarm},#{phtotoCertificate},#{phtotoPurchase},#{kehuphone},SYSDATE())
+    </insert>
+
+    <!-- 将Insurance中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyInsurance" parameterType="com.zzu.tpp.entity.Insurance">
+        insert into insurance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deadline != null">deadline,</if>
+            <if test="money != null">money,</if>
+            <if test="photoInvoice != null">photo_invoice,</if>
+            <if test="photoCardface != null">photo_cardface,</if>
+            <if test="userid != null">userId,</if>
+            <if test="phtotoCardback != null">phtoto_cardback,</if>
+            <if test="phtotoFarm != null">phtoto_farm,</if>
+            <if test="phtotoCertificate != null">phtoto_certificate,</if>
+            <if test="phtotoPurchase != null">phtoto_purchase,</if>
+            <if test="kehuphone != null">kehuphone,</if>
+            <if test="kehudate != null">kehudate,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="deadline != null"> #{deadline},</if>
+            <if test="money != null"> #{money},</if>
+            <if test="photoInvoice != null"> #{photoInvoice},</if>
+            <if test="photoCardface != null"> #{photoCardface},</if>
+            <if test="userid != null"> #{userid},</if>
+            <if test="phtotoCardback != null"> #{phtotoCardback},</if>
+            <if test="phtotoFarm != null"> #{phtotoFarm},</if>
+            <if test="phtotoCertificate != null"> #{phtotoCertificate},</if>
+            <if test="phtotoPurchase != null"> #{phtotoPurchase},</if>
+            <if test="kehuphone != null"> #{kehuphone},</if>
+            <if test="kehudate != null"> #{kehudate},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过Insurance的id将数据库表中对应的数据删除-->
+    <delete id="deleteInsuranceById" parameterType="java.lang.Integer">
+        delete from insurance
+        where id = #{id}
+    </delete>
+
+    <!-- 通过Insurance的id将Insurance的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateInsuranceById" parameterType="com.zzu.tpp.entity.Insurance">
+        update insurance set
+            deadline=#{deadline}
+            ,money=#{money}
+            ,photo_invoice=#{photoInvoice}
+            ,photo_cardface=#{photoCardface}
+            ,userId=#{userid}
+            ,phtoto_cardback=#{phtotoCardback}
+            ,phtoto_farm=#{phtotoFarm}
+            ,phtoto_certificate=#{phtotoCertificate}
+            ,phtoto_purchase=#{phtotoPurchase}
+            ,kehuphone=#{kehuphone}
+            ,kehudate=#{kehudate}
+        where id=#{id}
+    </update>
+
+    <!-- 通过Insurance的id将Insurance中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyInsuranceById" parameterType="com.zzu.tpp.entity.Insurance">
+        update insurance
+        <set>
+            <if test="deadline != null">
+                deadline=#{deadline},
+            </if>
+            <if test="money != null">
+                money=#{money},
+            </if>
+            <if test="photoInvoice != null">
+                photo_invoice=#{photoInvoice},
+            </if>
+            <if test="photoCardface != null">
+                photo_cardface=#{photoCardface},
+            </if>
+            <if test="userid != null">
+                userId=#{userid},
+            </if>
+            <if test="phtotoCardback != null">
+                phtoto_cardback=#{phtotoCardback},
+            </if>
+            <if test="phtotoFarm != null">
+                phtoto_farm=#{phtotoFarm},
+            </if>
+            <if test="phtotoCertificate != null">
+                phtoto_certificate=#{phtotoCertificate},
+            </if>
+            <if test="phtotoPurchase != null">
+                phtoto_purchase=#{phtotoPurchase},
+            </if>
+            <if test="kehuphone != null">
+                kehuphone=#{kehuphone},
+            </if>
+            <if test="kehudate != null">
+                kehudate=#{kehudate},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

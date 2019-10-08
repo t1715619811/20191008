@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzu.tpp.dao.Renbao1UserDao">
+    <!-- Renbao1User的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_Renbao1User_Map" type="com.zzu.tpp.entity.Renbao1User">
+        <id column="id" property="id" />
+        <result column="usercode" property="usercode" />
+        <result column="username" property="username" />
+        <result column="usertype" property="usertype" />
+        <result column="power" property="power" />
+        <result column="status" property="status" />
+        <result column="userpassword" property="userpassword" />
+    </resultMap>
+
+    <!-- 数据库中表名为:renbao1_user的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="renbao1_user_Column">
+         t_user.id as id
+        ,t_user.usercode as usercode
+        ,t_user.username as username
+        ,t_user.usertype as usertype
+        ,t_user.power as power
+        ,t_user.status as status
+        ,t_user.userpassword as userpassword
+    </sql>
+
+    <!--获得类名为:Renbao1User对应的数据库表的数据总行数 -->
+    <select id="getRenbao1UserRowCount" resultType="java.lang.Long">
+        select count(id) from t_user
+    </select>
+    <!-- 获得类名为:Renbao1User对应数据库中表的数据集合 -->
+    <select id="selectRenbao1User"  resultType="com.zzu.tpp.entity.Renbao1User">
+        select 
+      id,usercode,username,usertype,power,status,userpassword from t_user
+        from t_user
+    </select> 
+
+   
+</mapper>

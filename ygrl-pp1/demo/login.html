@@ -1,0 +1,130 @@
+<%@page isELIgnored="false" pageEncoding="UTF-8" contentType="text/html; UTF-8"%>
+
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/> 
+		  <link  href="layer-v3.1.1/layer/theme/default/layer.css"/>
+		  <script language="javascript"  src="../js/jquery-1.11.3.min.js"></script>
+		  <script language="JavaScript" src="layer-v3.1.1/layer/layer.js"></script>
+		  
+		  <%@include file="/commons/easyui.jsp"%>
+		  
+		  
+		  
+		  
+		  
+	</head>
+	<body style="background-color: #DDDDDD;">
+		
+	<div class="container" >
+		
+		<div style="width:400px;height: 300px; margin: 200px auto;background-color: #FFFFFF;padding: 20px;">
+			<h2 class="text-center" style="margin: 20px 0;">客户认领及预约系统</h2>
+			<form  method="post">
+				<div class="input-group" style="margin-bottom: 20px;">
+				  <span class="input-group-addon" id="basic-addon1">用户:</span>
+				  <input type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1" id="username">
+				</div>
+				<div class="input-group" style="margin-bottom: 20px;">
+					<span class="input-group-addon" id="basic-addon1">密码:</span>
+					<input type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1" id="password">
+				</div>
+				<button type="button" class="btn btn-info btn-block" id="login">登陆</button>
+			</form>
+		</div>
+	</div>
+		
+	</body>
+</html>
+<script>
+	$(function(){
+		$("#login").on("click",function(){
+			
+	
+		
+			 
+			
+			
+		  var name = $("#username").val();
+		  var pwd = $("#password").val();
+		  
+		   
+		   if(name==null||pwd==null||name==""||pwd==""){
+			   
+			   
+			   
+			   layer.open({
+			   title: '提示',
+			   content: '信息不完整'
+			   });     
+		   }
+		   
+		      if(!name==""&&!pwd==""){
+		   alert(1);
+		   var param="username="+name+"&password="+pwd;
+		   
+		   							$.ajax({
+					url:"${pageContext.request.contextPath}/user/login",
+					type:"post",
+					data:param,
+					dataType:"json",
+					success:function(json){
+						console.log(json);
+						//1. 重新加载当前页面的信息。
+						//2. 提示信息。
+						
+										if(json.code==200){
+													
+								$.messager.show({
+							title:"提示",
+							msg:json.msg,
+						});
+										
+					location.href="${pageContext.request.contextPath}/ppp.jsp";
+					
+				}
+				
+														if(json.code==400){
+			
+			
+								$.messager.show({
+							title:"提示",
+							msg:json.msg,
+						});
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+				}
+				
+				
+					}
+				});
+		   
+		   
+		   
+		   }
+		   
+		   
+		   
+		   
+		
+		})
+		
+	})
+	
+	
+</script>

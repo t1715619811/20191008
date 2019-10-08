@@ -1,0 +1,34 @@
+[
+	{
+		"id":1,
+		"title":"轮播图",
+		"iconCls":"icon-add",
+		"href":"",
+		"children":[
+			{
+				"id":2,
+				"title":"轮播图管理",
+				"iconCls":"icon-add",
+				"href":"banner.jsp"
+			}
+		]
+	},{
+		"id":3,
+		"title":"专辑",
+		"iconCls":"icon-cut",
+		"href":"",
+		"children":[
+			{
+				"id":4,
+				"title":"专辑管理",
+				"iconCls":"icon-cut",
+				"href":"album.jsp"
+			},{
+				"id":5,
+				"title":"专辑查看",
+				"iconCls":"icon-cut",
+				"href":"index.jsp"
+			}
+		]
+	}
+]

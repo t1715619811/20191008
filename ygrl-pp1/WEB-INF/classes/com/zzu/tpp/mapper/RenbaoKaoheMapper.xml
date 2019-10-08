@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzu.tpp.dao.RenbaoKaoheDao">
+    <!-- RenbaoKaohe的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_RenbaoKaohe_Map" type="com.zzu.tpp.entity.RenbaoKaohe">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="grade" property="grade" />
+        <result column="xuehao" property="xuehao" />
+    </resultMap>
+
+    <!-- 数据库中表名为:renbao_kaohe的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="renbao_kaohe_Column">
+        renbao_kaohe.id as id
+        ,renbao_kaohe.name as name
+        ,renbao_kaohe.grade as grade
+        ,renbao_kaohe.xuehao as xuehao
+    </sql>
+
+    <!--获得类名为:RenbaoKaohe对应的数据库表的数据总行数 -->
+    <select id="getRenbaoKaoheRowCount" resultType="java.lang.Long">
+        select count(id) from renbao_kaohe
+    </select>
+    <!-- 获得类名为:RenbaoKaohe对应数据库中表的数据集合 -->
+    <select id="selectRenbaoKaohe" resultMap="result_RenbaoKaohe_Map">
+        select 
+        <include refid="renbao_kaohe_Column" /> 
+        from renbao_kaohe
+    </select> 
+
+    <!-- 获得一个RenbaoKaohe对象,以参数RenbaoKaohe对象中不为空的属性作为条件进行查询-->
+    <select id="selectRenbaoKaoheByObj" parameterType="com.zzu.tpp.entity.RenbaoKaohe" resultMap="result_RenbaoKaohe_Map">
+        select 
+            <include refid="renbao_kaohe_Column" /> 
+        from renbao_kaohe
+        <where>
+            <if test="xuehao != null "> and renbao_kaohe.xuehao = #{xuehao}</if>
+            <if test="grade != null "> and renbao_kaohe.grade = #{grade}</if>
+            <if test="name != null "> and renbao_kaohe.name = #{name}</if>
+            <if test="id != null "> and renbao_kaohe.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过RenbaoKaohe的id获得对应数据库中表的数据对象-->
+    <select id="selectRenbaoKaoheById" parameterType="java.lang.Integer" resultMap="result_RenbaoKaohe_Map">
+        select 
+            <include refid="renbao_kaohe_Column" /> 
+        from renbao_kaohe
+        where renbao_kaohe.id = #{id}
+    </select> 
+
+    <!-- 将RenbaoKaohe插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertRenbaoKaohe" parameterType="com.zzu.tpp.entity.RenbaoKaohe">
+        insert into renbao_kaohe(id,name,grade,xuehao) 
+        values(#{id},#{name},#{grade},#{xuehao})
+    </insert>
+
+    <!-- 将RenbaoKaohe中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyRenbaoKaohe" parameterType="com.zzu.tpp.entity.RenbaoKaohe">
+        insert into renbao_kaohe
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="grade != null">grade,</if>
+            <if test="xuehao != null">xuehao,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="name != null"> #{name},</if>
+            <if test="grade != null"> #{grade},</if>
+            <if test="xuehao != null"> #{xuehao},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过RenbaoKaohe的id将数据库表中对应的数据删除-->
+    <delete id="deleteRenbaoKaoheById" parameterType="java.lang.Integer">
+        delete from renbao_kaohe
+        where id = #{id}
+    </delete>
+
+    <!-- 通过RenbaoKaohe的id将RenbaoKaohe的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateRenbaoKaoheById" parameterType="com.zzu.tpp.entity.RenbaoKaohe">
+        update renbao_kaohe set
+            name=#{name}
+            ,grade=#{grade}
+            ,xuehao=#{xuehao}
+        where id=#{id}
+    </update>
+
+    <!-- 通过RenbaoKaohe的id将RenbaoKaohe中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyRenbaoKaoheById" parameterType="com.zzu.tpp.entity.RenbaoKaohe">
+        update renbao_kaohe
+        <set>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="grade != null">
+                grade=#{grade},
+            </if>
+            <if test="xuehao != null">
+                xuehao=#{xuehao},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+
+<select id="selectmohu" parameterType="java.lang.String" resultType="RenbaoKaohe">
+
+select * from renbao_kaohe where name like '%${name}%'
+
+</select>
+
+
+
+
+
+
+
+
+</mapper>

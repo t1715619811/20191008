@@ -1,0 +1,24 @@
+[
+	{
+		"id":1,
+		"title":"心中有佛",
+		"src":"1.gif",
+		"status":"Y",
+		"desc":"佛在心中",
+		"pubDate":"2019-10-10"
+	},{
+		"id":2,
+		"title":"心系天下",
+		"src":"2.gif",
+		"status":"N",
+		"desc":"普度众生",
+		"pubDate":"2019-11-10"
+	},{
+		"id":3,
+		"title":"横扫嵌裙",
+		"src":"3.gif",
+		"status":"Y",
+		"desc":"万寿无疆",
+		"pubDate":"2019-12-10"
+	}
+]

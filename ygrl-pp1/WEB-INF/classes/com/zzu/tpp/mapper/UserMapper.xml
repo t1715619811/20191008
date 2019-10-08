@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzu.tpp.dao.UserDAO">
+
+
+
+
+	
+		<insert id="insert" parameterType="User">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select 0 from dual
+		</selectKey>
+		insert into renbao_user values(#{id},#{username},#{password})
+	</insert>
+	
+	
+	
+	<select id="selectbyname" resultType="User" parameterType="java.lang.String">
+	
+	select id,username,password from renbao_user where username=#{0}
+	
+	
+	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
